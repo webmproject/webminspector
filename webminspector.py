@@ -65,10 +65,10 @@ def main():
 #    return
 
   if num_argument == 1:
-    print '\t\t\t\t * WebM Inspector %s' % GetVersion()
-    print '\t\t\t\t  -. This command line tool dumps all info from a webm file.'
-    print '\t\t\t\t  -. usage: python webminspector.py [webm file]'
-    print '\t\t\t\t  -. ex: python webminspector.py sample.webm\n'
+    print '\t\t * WebM Inspector %s' % GetVersion()
+    print '\t\t  -. This command line tool dumps all info from a webm file.'
+    print '\t\t  -. usage: python webminspector.py [webm file]'
+    print '\t\t  -. ex: python webminspector.py sample.webm\n'
     sys.exit(1)
 
   webm_file = webmFile(sys.argv[1])

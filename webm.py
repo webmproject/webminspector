@@ -11,7 +11,7 @@ from ebml_header import *
 def GetVersion():
   """Return this module version
   """
-  return 'v0.9.1'
+  return 'v0.9.2'
 
 def BitSet(x, n):
   """Return whether nth bit of x was set"""
@@ -245,6 +245,31 @@ def CalculatePacketSize(data, i):
 
   return 255 * loop + data[i], (lambda  x: x + 1)(i)
 
+
+def DisplayVP8Data(data):
+  # for now we just handle simple block with no lacing data case
+  keyframe = BitSet(data[4:5], 0)
+  version = data[4] & 0x0E
+  showframe = BitSet(data[4:5], 4)
+
+  first_data_partition = InterpretLittleEndian(data[4:7], 3) >> 5
+
+  if keyframe == False:
+    k_o = 'Yes'
+  else:
+    k_o = 'No'
+
+  if showframe == True:
+    s_o = 'Yes'
+  else:
+    s_o = 'No'
+
+  output = '[VP8] key: %s, ver: %d, sf: %s, pl: %d' % \
+     (k_o, version, s_o, first_data_partition)
+
+  return output
+
+
 def DisplayCodecPrivateData(data, total):
   print '\t\t\t\tNumber of packets : %d' % (data[0] + 1)
 
@@ -375,7 +400,6 @@ def DisplayCodecPrivateData(data, total):
 
     i += 3
 
-
     i += 1
     codebook_dimensions = InterpretLittleEndian(data[i:i+2], 2)
     print '\t\t\t\t\tcodebook_dimensions : %d' % codebook_dimensions
@@ -469,6 +493,8 @@ class Segment:
     self._elements = []
     self._total_size_for_segment = 0
     self._start_pos = 0
+    self._track_number_type = [-1, -1, -1, -1] 
+    self._flag_track_done = False
 
   """
   Search Ebml element head in a segment
@@ -584,6 +610,7 @@ class Segment:
   def ProcessElement(self, file_, element_id_, index):
     i = 0
     time_code_absolute = 0
+    loop = 0
 
     for eid in self._elements:
       if int(eid[0], 16) == element_id_:
@@ -662,7 +689,14 @@ class Segment:
                       lacing = 'no lacing'
 
                     flag_simple_block = True
-                    output = 'binary'
+
+                    if self._flag_track_done and (self._track_number_type[0] ==\
+                       self._track_number_type[1]) and (track_number == 1):
+                      output = DisplayVP8Data(data_)
+                    else:
+                      output = 'binary'
+
+                    #output = data_
                   elif CODEC_PRIVATE == int(element_id, 16):
                     #output = 'Codec Private'
                     output = data_
@@ -700,10 +734,23 @@ class Segment:
                      + repr(hex(pos_sub_element)) +  ') : '
                   print '\t\t\t' + repr(DisplayCodecPrivateData(output, data_size))
                 else:
+                  if int(element_id, 16) == TRACK_TYPE:
+                    self._track_number_type[loop] = output
+                    loop += 1
+
+                  if int(element_id, 16) == TRACK_NUMBER:
+                    self._track_number_type[loop] = output
+                    loop += 1
+
+                  if loop == 4:
+                    self._flag_track_done = True
+                    loop = 0
+
                   print '\t\t\t' + str(handle_dic[int(element_id, 16)][0]) \
                      + ' (head size: ' + repr(size + data_size_length) \
                      + ' bytes, data: ' + repr(data_size) +' bytes, pos: '\
-                     + repr(pos_sub_element) +  ', ' + repr(hex(pos_sub_element)) +  ') : ' + repr(output)
+                     + repr(pos_sub_element) +  ', ' +\
+                     repr(hex(pos_sub_element)) +  ') : ' + repr(output)
 
                 if flag_simple_block == True:
                   print '\t\t\t  ' + 'track number : ' + repr(track_number) \
