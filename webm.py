@@ -11,7 +11,7 @@ from ebml_header import *
 def GetVersion():
   """Return this module version
   """
-  return 'v0.9.2'
+  return 'v0.9.3'
 
 def BitSet(x, n):
   """Return whether nth bit of x was set"""
@@ -767,6 +767,7 @@ class Segment:
                   return
             else:
               print '\n\t\t>>>Seems invalid WebM file format<<<'
+              print '\t\t at element code [%s]' % element_id 
               exit(1)
         else:
           i = i + 1

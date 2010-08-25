@@ -218,7 +218,8 @@ seek_head_dic = {
       SEEKHEAD : ('SeekHead', LEVEL_1, EBML_SUB_ELEMENT),
       SEEK : ('Seek', LEVEL_1, EBML_SUB_ELEMENT),
       SEEKID : ('SeekId', LEVEL_2, EBML_BINARY),
-      SEEKPOSITION : ('SeekPosition', LEVEL_3, EBML_UINTEGER)
+      SEEKPOSITION : ('SeekPosition', LEVEL_3, EBML_UINTEGER),
+      VOID : ('Void', LEVEL_1, EBML_BINARY)
     }
 
 segment_info_dic = {
