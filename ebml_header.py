@@ -129,6 +129,8 @@ PIXEL_CROP_LEFT = 0x54CC
 PIXEL_CROP_RIGHT = 0x54DD
 DISPLAY_WIDTH = 0x54B0
 DISPLAY_HEIGHT = 0x54BA
+DISPLAY_UNIT = 0x54B2
+ASPECT_RATIO_TYPE = 0x54B3
 COLOR_SPACE = 0x2EB524
 FRAME_RATE = 0x2383E3
 AUDIO = 0xE1
@@ -160,7 +162,6 @@ CUE_TRACK_POSITIONS = 0xB7
 CUE_TRACK = 0xF7
 CUE_CLUSTER_POSITION = 0xF1
 CUE_BLOCK_NUMBER = 0x5378
-
 
 ATTACHMENTS = 0x1941A469
 ATTACHED_FILE = 0x61A7
@@ -269,6 +270,8 @@ track_dic = {
      PIXEL_CROP_RIGHT : ('Pixel Crop Right', LEVEL_4, EBML_UINTEGER),
      DISPLAY_WIDTH : ('Display Width', LEVEL_4, EBML_UINTEGER),
      DISPLAY_HEIGHT : ('Display Height', LEVEL_4, EBML_UINTEGER),
+     DISPLAY_UNIT : ('Display Unit', LEVEL_4, EBML_UINTEGER),
+     ASPECT_RATIO_TYPE : ('Aspect Ratio Type', LEVEL_4, EBML_UINTEGER),
      FRAME_RATE : ('Frame Rate', LEVEL_4, EBML_FLOAT),
      AUDIO : ('Audio', LEVEL_3, EBML_SUB_ELEMENT),
      SAMPLING_FREQUENCY : ('Sampling Frequency', LEVEL_4, EBML_FLOAT),
@@ -276,9 +279,10 @@ track_dic = {
                                   EBML_FLOAT),
      CHANNELS : ('Channels', LEVEL_4, EBML_UINTEGER),
      BIT_DEPTH : ('Bit Depth', LEVEL_4, EBML_UINTEGER),
-     VOID : ('Void', LEVEL_1, EBML_BINARY),
+     VOID : ('Void', LEVEL_1, EBML_BINARY)
      #not valid webm from here
-     TRACK_TIMECODE_SCALE : ('Track Timecode Scale', LEVEL_3, EBML_FLOAT)
+     #TRACK_TIMECODE_SCALE : ('Track Timecode Scale', LEVEL_3, EBML_FLOAT)
+     #MIN_CACHE : ('Min Cache', LEVEL_3, EBML_UINTEGER)
   }
 
 cue_dic = {
