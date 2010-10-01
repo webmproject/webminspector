@@ -113,9 +113,9 @@ def ProcessIdSize(file_, pos, size):
   id_size, pos = ReadClassId(file_, pos, size, '>%dB' % size)
   return id_size, pos
 
-def ReadDataSize(file_, pos, bytes, unpack_mode):
+def ReadDataSize(file_, pos, bytes_read, unpack_mode):
   file_.seek(pos)
-  data = file_.read(bytes)
+  data = file_.read(bytes_read)
 
   pos = file_.tell()
   data_size = struct.unpack(unpack_mode, data)
@@ -138,8 +138,9 @@ def ReadDataSize(file_, pos, bytes, unpack_mode):
     data_size_0 = 0 # TODO: research in which case this statement is executed.
 
   len_  = len(data_size)
+  #print 'data_size %s' % data_size
   total_data_size = 0
-  if bytes == 1:
+  if bytes_read == 1:
     total_data_size = data_size_0
   else:
     index = 1
@@ -493,7 +494,7 @@ class Segment:
     self._elements = []
     self._total_size_for_segment = 0
     self._start_pos = 0
-    self._track_number_type = [-1, -1, -1, -1] 
+    self._track_number_type = [-1, -1, -1, -1]
     self._flag_track_done = False
 
   """
@@ -536,6 +537,12 @@ class Segment:
   def GetSeekElement(self):
     return self._seeks
 
+  def GetTotalSizeSegment(self):
+    return self._total_size_for_segment
+
+  def SetTotalSizeSegment(self, size):
+    self._total_size_for_segment = size
+
   def SearchLevelOneElements(self, file_, pos):
     """
     Search Level One Ebml Elements and put in a list
@@ -564,7 +571,9 @@ class Segment:
       self._total_size_for_segment = data_size
     elif int(element_id, 16) in self._segment_data.keys():
       head_size = size + data_size_length
+      #make them tuple
       item = (element_id, start_pos, data_size, head_size)
+      #add a tuple data in the list
       self._elements.append(item)
       #self._elements.append(start_pos)
     else:
@@ -575,7 +584,8 @@ class Segment:
         self.SearchLevelOneElements(file_, pos)
       else:
         next_pos = data_size + start_pos + size + data_size_length
-        self.SearchLevelOneElements(file_, next_pos)
+        return next_pos
+        #self.SearchLevelOneElements(file_, next_pos)
 
   def ProcessSegment(self, file_, pos):
     HandleData(self, self._segment_data, self.ProcessSegment, file_, pos)

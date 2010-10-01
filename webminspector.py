@@ -81,8 +81,13 @@ def main():
     ebml.ProcessEbml(file_, 0, True)
     pos = ebml.GetFilePosition()
     segment = Segment()
-    segment.SearchLevelOneElements(file_, pos)
-
+    size, start_pos = ReadOneByteForElementIdSize(file_, pos)
+    element_id, pos = ProcessIdSize(file_, start_pos, size)
+    data_size_length, pos = ReadOneByteForDataSize(file_, pos)
+    data_size, pos = ProcessDataSize(file_, pos, data_size_length)
+    segment.SetTotalSizeSegment(data_size)
+    while pos <= data_size:
+      pos = segment.SearchLevelOneElements(file_, pos)
     ebml.ProcessEbml(file_)
     segment.ProcessElement(file_, SEEKHEAD, 0)
     segment.ProcessElement(file_, SEGMENT_INFO, 0)
