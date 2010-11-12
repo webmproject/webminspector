@@ -3,6 +3,7 @@
 # Copyright 2010 Google Inc. All Rights Reserved.
 
 """
+predefine ebml elements.
 """
 
 __author__ = 'hwasoolee@google.com.com (Hwasoo Lee)'
