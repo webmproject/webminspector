@@ -323,8 +323,8 @@ def DisplayCodecPrivateData(data, total):
     i += 4
 
     block_size_0, block_size_1 = CalculatePacketBlockSize(data[i+1])
-    print '\t\t\t\t\tBlock Size 0 : %d ' %  pow(2, block_size_0)
-    print '\t\t\t\t\tBlock Size 1 : %d ' %  pow(2, block_size_1)
+    print '\t\t\t\t\tBlock Size 0 : %d ' %  (1 << block_size_0)
+    print '\t\t\t\t\tBlock Size 1 : %d ' %  (1 << block_size_1)
     i += 1
 
     print '\t\t\t\t\tFraming Flag : %d' % bool(data[i+1])
