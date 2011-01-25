@@ -185,6 +185,7 @@ def HandleData(self, dic, Process, file_, pos, ebml_head_flag = False):
   start_pos = pos
   size, pos = ReadOneByteForElementIdSize(file_, pos)
   element_id, pos = ProcessIdSize(file_, pos, size)
+ # TODO(hwasoo): need to check element id
 
   data_size_length, pos = ReadOneByteForDataSize(file_, pos)
   assert data_size_length > 0
