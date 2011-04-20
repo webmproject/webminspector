@@ -272,6 +272,7 @@ track_dic = {
      DISPLAY_WIDTH : ('Display Width', LEVEL_4, EBML_UINTEGER),
      DISPLAY_HEIGHT : ('Display Height', LEVEL_4, EBML_UINTEGER),
      DISPLAY_UNIT : ('Display Unit', LEVEL_4, EBML_UINTEGER),
+     STEREO_MODE : ('Stereo Mode', LEVEL_4, EBML_UINTEGER),
      ASPECT_RATIO_TYPE : ('Aspect Ratio Type', LEVEL_4, EBML_UINTEGER),
      FRAME_RATE : ('Frame Rate', LEVEL_4, EBML_FLOAT),
      AUDIO : ('Audio', LEVEL_3, EBML_SUB_ELEMENT),
