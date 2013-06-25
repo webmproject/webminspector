@@ -1,4 +1,3 @@
-#!/usr/bin/python2.4
 ##
 ##  Copyright (c) 2010 The WebM project authors. All Rights Reserved.
 ##
