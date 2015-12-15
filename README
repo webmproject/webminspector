@@ -1,0 +1,8 @@
+This project is inactive and the tools within deprecated. For general WebM
+parsing see libwebm[1] and its accompanying tools. For inspection support
+see webm-tools[2] and mkvtoolnix[3].
+
+[1] https://chromium.googlesource.com/webm/libwebm
+[2] https://chromium.googlesource.com/webm/webm-tools
+[3] https://mkvtoolnix.download/source.html
+
